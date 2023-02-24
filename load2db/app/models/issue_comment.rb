@@ -1,0 +1,2 @@
+class IssueComment < ApplicationRecord
+end

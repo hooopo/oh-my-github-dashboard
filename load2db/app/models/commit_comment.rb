@@ -1,0 +1,2 @@
+class CommitComment < ApplicationRecord
+end
