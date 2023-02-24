@@ -36,7 +36,7 @@ jobs:
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        USERNAME: ${{ secrets.USERNAME }}
+        USER_LOGIN: ${{ secrets.USER_LOGIN }}
 
       run: |
         cd load2db
@@ -47,7 +47,7 @@ jobs:
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        USERNAME: ${{ secrets.USERNAME }}
+        USER_LOGIN: ${{ secrets.USER_LOGIN }}
       run: |
         cd load2db
         bundle exec rails runner "SyncGithub.run!"
