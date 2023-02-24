@@ -4,6 +4,10 @@
 
 ## How to use
 
+
+![image](https://user-images.githubusercontent.com/63877/221096416-09c25ae7-f950-4236-9316-36efb0ae8788.png)
+
+
 The repo requires the following environment variables to be set:
 
 * `ACCESS_TOKEN`: A personal access token provided by GitHub, which can be set at https://github.com/settings/tokens.
