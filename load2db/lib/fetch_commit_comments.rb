@@ -82,7 +82,6 @@ class FetchCommitComments
 
   def fetch_data(cusor)
     q = query(cusor)
-    puts q
     puts "- Sync commit comments with cusor: #{cusor}"
     response = HTTP.post("https://api.github.com/graphql",
       headers: {
