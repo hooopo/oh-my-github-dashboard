@@ -27,7 +27,7 @@ class StoryGenerator
     prompt += "He has #{repos_count} repos. "
     prompt += "Bio: #{current_user.bio} \n"
     prompt += "Twitter username: #{current_user.twitter_username} \n" if current_user.twitter_username.present?
-    prompt += "Write a story about #{current_user.login}, include information above. Minimum 800 words. A paragraph has a maximum of 140 characters. More creative"
+    prompt += "Write a story about #{current_user.login}, include information above. Minimum 800 words. A paragraph has a maximum of 140 characters."
     
     response = client.completions(
       parameters: {
