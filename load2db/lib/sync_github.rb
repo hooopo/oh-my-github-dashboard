@@ -31,5 +31,8 @@ class SyncGithub
 
     puts "👇 Sync Region"
     SyncRegion.new.run
+
+    puts "👇 Generate Story by OpenAI"
+    StoryGenerator.generate_by_openai
   end
 end

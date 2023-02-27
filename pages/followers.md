@@ -44,21 +44,42 @@ join curr_user on followers.user_id = curr_user.id
 ### Followers top regions
 
 ```followers_top_regions
-select u.region,
-        count(*) as count
+select u.region as name,
+        count(*) as value
 from users u join followers on u.id = followers.target_user_id
 join curr_user on followers.user_id = curr_user.id
 where u.region is not null and u.region != '' and u.region != 'N/A'
 group by 1
 order by 2 desc 
-limit 10
+limit 5
 ```
 
-<BarChart 
-    data={followers_top_regions} 
-    x='region' 
-    y='count'
-    title='Top Regions of Followers'
+<ECharts config={
+    {
+        tooltip: {
+            formatter: '{b}: {c}'
+        },
+      series: [
+        {
+          type: 'treemap',
+          visibleMin: 400,
+          label: {
+            show: true,
+            formatter: '{b}'
+          },
+          itemStyle: {
+            borderColor: '#fff'
+          },
+          roam: false,
+          nodeClick: false,
+          data: followers_top_regions,
+          breadcrumb: {
+            show: false
+          }
+        }
+      ]
+      }
+    }
 />
 
 ### Top Companies of Followers
