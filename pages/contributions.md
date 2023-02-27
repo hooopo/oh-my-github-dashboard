@@ -15,7 +15,7 @@ with events as (
 select date_format(events.created_at, '%Y-%m-01') as month, type, count(*) as cnt
 from events join curr_user on events.user_id = curr_user.id
 group by 1, 2
-
+order by 1 asc
 ```
 
 <AreaChart 
