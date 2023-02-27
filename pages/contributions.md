@@ -26,3 +26,20 @@ order by 1 asc
     title=""
     subtitle=""
 />
+
+```contributions_code_changes
+select date_format(pr.created_at, '%Y-%m-01') as month,  
+  sum(pr.additions ) as total_additions, 
+  sum(pr.deletions) as total_deletions
+from pull_requests pr join curr_user on pr.user_id = curr_user.id
+group by 1
+order by 1 asc;
+```
+
+<AreaChart 
+    data={contributions_code_changes}  
+    x=month 
+    y={["total_additions", "total_deletions"]}
+    title=""
+    subtitle=""
+/>
