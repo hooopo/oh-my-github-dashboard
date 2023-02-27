@@ -98,3 +98,33 @@ order by 1 asc
     x=month 
     y={["total_additions", "total_deletions"]}  
 />
+
+
+### Most contributed to repositories
+
+```contributions_repos
+with events as (
+  select id, user_id, repo_id, created_at, 'issue' as type from issues
+  union all
+  select id, user_id, repo_id, created_at, 'pull_request' as type from pull_requests
+  union all
+  select id, user_id, repo_id, created_at, 'issue_comment' as type from issue_comments
+  union all
+  select id, user_id, repo_id, created_at, 'commit_comment' as type from commit_comments
+)
+
+select concat(repos.owner, "/", repos.name) as repo_name, count(*) as cnt
+from events e
+join curr_user on e.user_id = curr_user.id
+join repos on e.repo_id = repos.id
+group by 1
+order by 2 desc
+limit 10;
+```
+
+<BarChart 
+    data={contributions_repos} 
+    x=repo_name
+    y=cnt
+    swapXY=true
+/>
