@@ -23,8 +23,6 @@ order by 1 asc
     x=month 
     y=cnt
     series=type
-    title=""
-    subtitle=""
 />
 
 ```contributions_code_changes
@@ -40,6 +38,4 @@ order by 1 asc;
     data={contributions_code_changes}  
     x=month 
     y={["total_additions", "total_deletions"]}
-    title=""
-    subtitle=""
 />
