@@ -37,6 +37,7 @@ jobs:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         USER_LOGIN: ${{ secrets.USER_LOGIN }}
+        OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN }}
 
       run: |
         cd load2db
@@ -48,6 +49,7 @@ jobs:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         USER_LOGIN: ${{ secrets.USER_LOGIN }}
+        OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN }}
       run: |
         cd load2db
         bundle exec rails runner "SyncGithub.run!"

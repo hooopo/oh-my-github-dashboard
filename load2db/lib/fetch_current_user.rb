@@ -18,7 +18,7 @@ class FetchCurrentUser
         company
         location
         twitterUsername
-      
+        bio
         createdAt
         updatedAt
         
@@ -40,6 +40,7 @@ class FetchCurrentUser
       login: base["login"],
       company: base["company"],
       twitter_username: base["twitterUsername"],
+      bio: base["bio"],
       location: base["location"],
       created_at: base["createdAt"],
       updated_at: base["updatedAt"],
