@@ -85,7 +85,7 @@ limit 5
 ### Top Companies of Followers
 
 ```followers_top_companies
-select u.company,
+select lower(replace(u.company, "@", "")) as company,
         count(*) as count
 from users u join followers on u.id = followers.target_user_id
 join curr_user on followers.user_id = curr_user.id
