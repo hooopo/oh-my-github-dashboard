@@ -1,80 +1,224 @@
-# Repository Dashboard Reshape
-
-
-## Basic Info
-
-```info
-select 'Full Name' as name,  concat(owner, '/', name) as value from repos
-union
-select 'Description' as name,  description as value from repos
-union
-select 'License' as name, license as value from repos
-union
-select 'Language' as name, language as value from repos
-union
-select 'Fork Count' as name, fork_count as value from repos
-union
-select 'Stargazer Count' as name, stargazer_count as value from repos
-union
-select 'Issue Count' as name, count(*) as value from issues 
-union 
-select 'Pull Request Count' as name, count(*) as value from pull_requests
-union
-select 'Contributors' as name, count(distinct author) as value from pull_requests
+```current_user
+select * from curr_user limit 1;
 ```
 
-<DataTable
-    data={info} 
-    rows=20
-    rowNumbers=false
-/>
+# Oh My GitHub for {current_user[0].login}
 
-## The running total of stars per month
+## Overview
 
-```star_history
-WITH monthly_stars AS (
-  SELECT DATE_FORMAT(starred_at, '%Y-%m') AS month, COUNT(*) AS total_stars
-  FROM stars
-  GROUP BY month
+```contribution_count
+with events as (
+  select id, user_id, created_at from issues
+  union all
+  select id, user_id, created_at from pull_requests
+  union all
+  select id, user_id, created_at from issue_comments
+  union all
+  select id, user_id, created_at from commit_comments
 )
-SELECT month, total_stars AS month_stars, SUM(total_stars) OVER (ORDER BY month) AS total_stars
-FROM monthly_stars
-ORDER BY 1 ASC
+
+select count(*) as contribution_count
+from events join curr_user on events.user_id = curr_user.id
 ```
 
-<LineChart 
-    data={star_history}  
-    x=month 
-    y=total_stars
+```earned_stars
+select sum(stargazer_count) as earned_stars
+from repos join curr_user on repos.user_id = curr_user.id
+where repos.is_fork = false and repos.is_private = false
+```
+
+```contributed_repos
+with events as (
+  select id, user_id, repo_id from issues
+  union all
+  select id, user_id, repo_id from pull_requests
+  union all
+  select id, user_id, repo_id from issue_comments
+  union all
+  select id, user_id, repo_id from commit_comments
+)
+
+select count(distinct repo_id) as contributed_repos from events join curr_user on events.user_id = curr_user.id
+```
+
+```code_additions
+select sum(additions) as code_additions
+from pull_requests join curr_user on pull_requests.user_id = curr_user.id
+```
+
+```code_deletions
+select sum(deletions) as code_deletions
+from pull_requests join curr_user on pull_requests.user_id = curr_user.id
+```
+
+<BigValue
+    data={contribution_count}
+    value=contribution_count
+    maxWidth='10em'
 />
 
-## Top contributors analysis
+<BigValue
+    data={current_user}
+    value='followers_count'
+    maxWidth='10em'
+/>
 
-```top_contributors
-select author, 
-  count(*) as pr_cnt, 
-  concat('https://github.com/', author, '.png?size=50') as avatar,
-  concat('https://github.com/', author) as author_url,
-  sum(changed_files) as total_changed_files_num0k,
-  sum(additions) as total_additions_num0k,
-  sum(deletions) as total_deletions_num0k
-from pull_requests 
-where author not regexp 'bot' 
-group by 1 
-order by 2 desc 
-limit 100;
+<BigValue
+    data={earned_stars}
+    value=earned_stars
+    maxWidth='10em'
+/>
+
+<BigValue
+    data={contributed_repos}
+    value=contributed_repos
+    maxWidth='10em'
+/>
+
+<BigValue
+    data={code_additions}
+    value=code_additions
+    maxWidth='10em'
+/>
+
+<BigValue
+    data={code_deletions}
+    value=code_deletions
+    maxWidth='10em'
+/>
+
+## Contributions Analysis
+
+### Events per Month
+
+```contributions_per_month
+with events as (
+  select id, user_id, created_at, 'issue' as type from issues
+  union all
+  select id, user_id, created_at, 'pull_request' as type from pull_requests
+  union all
+  select id, user_id, created_at, 'issue_comment' as type from issue_comments
+  union all
+  select id, user_id, created_at, 'commit_comment' as type from commit_comments
+)
+
+select date_format(events.created_at, '%Y-%m-01') as month, type, count(*) as cnt
+from events join curr_user on events.user_id = curr_user.id
+group by 1, 2
+order by 1 asc
 ```
 
-<DataTable search=true data={top_contributors}>
-    <Column id=avatar contentType=image height=30px align=center />
-    <Column id=author_url contentType=link linkLabel=author />
-    <Column id=pr_cnt align=left />
-    <Column id=total_changed_files_num0k />
-    <Column id=total_additions_num0k />
-    <Column id=total_deletions_num0k />
-</DataTable>
+<AreaChart 
+    data={contributions_per_month}  
+    x=month 
+    y=cnt
+    series=type
+/>
 
-## Repository Contributor Analysis
+
+### Code Changes per Month
+
+```contributions_code_changes
+select date_format(pr.created_at, '%Y-%m-01') as month,  
+  sum(pr.additions ) as total_additions, 
+  sum(pr.deletions) as total_deletions
+from pull_requests pr join curr_user on pr.user_id = curr_user.id
+group by 1
+order by 1 asc;
+```
+
+<AreaChart 
+    data={contributions_code_changes}  
+    x=month 
+    y={["total_additions", "total_deletions"]}
+/>
+
+### Events history
+
+```contributions_running_total
+with events as (
+  select id, user_id, created_at from issues
+  union all
+  select id, user_id, created_at from pull_requests
+  union all
+  select id, user_id, created_at from issue_comments
+  union all
+  select id, user_id, created_at from commit_comments
+),
+monthly_events as (
+  select date_format(events.created_at, '%Y-%m-01') as month, count(*) as cnt
+  from events join curr_user on events.user_id = curr_user.id
+  group by 1
+  order by 1 asc
+)
+
+select month, sum(cnt) over (order by month) as total
+from monthly_events
+order by 1 asc
+```
+
+<AreaChart 
+    data={contributions_running_total}  
+    x=month 
+    y=total
+/>
+
+### Code changes history
+
+```contributions_code_changes_running_total
+with monthly_events as (
+  select date_format(pr.created_at, '%Y-%m-01') as month,  
+    sum(pr.additions ) as total_additions, 
+    sum(pr.deletions) as total_deletions
+  from pull_requests pr join curr_user on pr.user_id = curr_user.id
+  group by 1
+  order by 1 asc
+)
+
+select month, sum(total_additions) over(order by month) as total_additions , sum(total_deletions)  over (order by month) as total_deletions
+from monthly_events
+order by 1 asc
+```
+
+<AreaChart 
+    data={contributions_code_changes_running_total}  
+    x=month 
+    y={["total_additions", "total_deletions"]}  
+/>
+
+
+### Most contributed to repositories
+
+```contributions_repos
+with events as (
+  select id, user_id, repo_id, created_at, 'issue' as type from issues
+  union all
+  select id, user_id, repo_id, created_at, 'pull_request' as type from pull_requests
+  union all
+  select id, user_id, repo_id, created_at, 'issue_comment' as type from issue_comments
+  union all
+  select id, user_id, repo_id, created_at, 'commit_comment' as type from commit_comments
+)
+
+select concat(repos.owner, "/", repos.name) as repo_name, count(*) as cnt
+from events e
+join curr_user on e.user_id = curr_user.id
+join repos on e.repo_id = repos.id
+group by 1
+order by 2 desc
+limit 10;
+```
+
+<BarChart 
+    data={contributions_repos} 
+    x=repo_name
+    y=cnt
+    swapXY=true
+/>
+
+
+
+### Author Association
 
 * `COLLABORATOR`: Author has been invited to collaborate on the repository.
 * `CONTRIBUTOR`: Author has previously committed to the repository.
@@ -85,64 +229,76 @@ limit 100;
 * `NONE`: Author has no association with the repository.
 * `OWNER`: Author is the owner of the repository.
 
-### Pull Request
-
-```contributors_per_type
-select author_association, date_format(created_at, '%Y-%m-01') as month, count(distinct author) as users_cnt from pull_requests group by 1, 2 ;
+```contributions_author_association_pie
+select author_association as name, count(*) as value  
+from pull_requests pr join curr_user on pr.user_id = curr_user.id
+group by 1
+order by 2 desc
 ```
 
-<AreaChart 
-    data={contributors_per_type}  
-    x=month 
-    y=users_cnt
-    series=author_association
+<ECharts config={
+    {
+        tooltip: {
+            formatter: '{b}: {c} ({d}%)'
+        },
+        series: [
+        {
+          type: 'pie',
+          radius: ['40%', '70%'],
+          data: contributions_author_association_pie,
+        }
+      ]
+      }
+    }
 />
 
-### Issue
+### Contributions Types
 
-```contributors_per_type_issue
-select author_association, 
-  date_format(created_at, '%Y-%m-01') as month, 
-  count(distinct author) as users_cnt 
-from issues 
-group by 1, 2 ;
+```contributions_type_pie
+select type as name, count(*) as value
+from (
+  select user_id, 'issue' as type from issues
+  union all
+  select user_id, 'pull_request' as type from pull_requests
+  union all
+  select user_id, 'issue_comment' as type from issue_comments
+  union all
+  select user_id, 'commit_comment' as type from commit_comments
+) t
+join curr_user on t.user_id = curr_user.id
+group by 1
+order by 2 desc
 ```
 
-<AreaChart 
-    data={contributors_per_type_issue}  
-    x=month 
-    y=users_cnt
-    series=author_association
+<ECharts config={
+    {
+        tooltip: {
+            formatter: '{b}: {c} ({d}%)'
+        },
+        series: [
+        {
+          type: 'pie',
+          radius: ['40%', '70%'],
+          data: contributions_type_pie,
+        }
+      ]
+      }
+    }
 />
 
+## Followers Analysis
 
+### Followers top regions
 
-## Stars per month
-
-```stars_per_month
-
-  SELECT DATE_FORMAT(starred_at, '%Y-%m') AS month, COUNT(*) AS total_stars
-  FROM stars
-  GROUP BY month
-  ORDER BY 1 ASC;
-
-```
-
-<AreaChart 
-    data={stars_per_month}  
-    x=month 
-    y=total_stars
-/>
-
-## Geographic distribution of stargazers
-
-```star_region
-SELECT region AS name, COUNT(*) AS value
-FROM stars
-WHERE region IS NOT NULL AND region != 'N/A'
-GROUP BY 1
-ORDER BY 2 DESC
-LIMIT 5;
+```followers_top_regions
+select u.region as name,
+        count(*) as value
+from users u join followers on u.id = followers.target_user_id
+join curr_user on followers.user_id = curr_user.id
+where u.region is not null and u.region != '' and u.region != 'N/A'
+group by 1
+order by 2 desc 
+limit 5
 ```
 
 <ECharts config={
@@ -163,7 +319,7 @@ LIMIT 5;
           },
           roam: false,
           nodeClick: false,
-          data: star_region,
+          data: followers_top_regions,
           breadcrumb: {
             show: false
           }
@@ -173,37 +329,65 @@ LIMIT 5;
     }
 />
 
+### Top Companies of Followers
 
-## Company information about Stargazers
-
-```star_company
-select REPLACE(LOWER(company), '@', '') as company, count(*) as users_cnt
-from stars 
-where company is not null and company <> 'none'
-group by 1 
-order by 2 desc 
-limit 15;
+```followers_top_companies
+select lower(replace(u.company, "@", "")) as company,
+        count(*) as count
+from users u join followers on u.id = followers.target_user_id
+join curr_user on followers.user_id = curr_user.id
+where u.company is not null and u.company != '' and u.company != 'N/A'
+group by 1
+order by 2 desc
+limit 10
 ```
 
 <BarChart 
-    data={star_company} 
-    x=company 
-    y=users_cnt 
+    data={followers_top_companies} 
+    x='company' 
+    y='count'
+    title='Top Companies of Followers'
 />
 
-## Code change analysis
+### Followers Registered Years
 
-```code_changes
-select date_format(created_at, '%Y-%m-01') as month,  
-  sum(additions ) as total_additions, 
-  sum(deletions) as total_deletions
-from pull_requests 
-group by 1 
-order by 1 asc;
+```followers_registered_years
+select datediff(now(), u.created_at) DIV 365  as years,
+        count(*) as count
+from users u join followers on u.id = followers.target_user_id
+join curr_user on followers.user_id = curr_user.id
+group by 1
+order by 1 asc 
 ```
 
-<AreaChart 
-    data={code_changes}  
-    x=month 
-    y={["total_additions", "total_deletions"]}
+<BarChart 
+    data={followers_registered_years} 
+    x='years' 
+    y='count'
+    title='Registered Years of Followers'  
 />
+
+
+### Top Followers by Followers Count
+
+```top_followers_by_followers_count
+select u.login,
+       u.followers_count,
+       concat('https://github.com/', u.login, '.png?size=50') as avatar,
+       concat('https://github.com/', u.login) as login_url,
+       u.following_count,
+       u.twitter_username
+from users u join followers on u.id = followers.target_user_id
+join curr_user on followers.user_id = curr_user.id
+order by 2 desc
+limit 100
+```
+
+<DataTable search=true data={top_followers_by_followers_count}>
+    <Column id=avatar contentType=image height=30px align=center />
+    <Column id=login_url contentType=link linkLabel=login />
+    <Column id=followers_count />
+    <Column id=following_count />
+    <Column id=twitter_username />
+</DataTable>
+
