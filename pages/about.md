@@ -3,7 +3,7 @@
 
 ## How it works
 
-![image](static/how_it_works.png)
+![image](how_it_works.png)
 
 ## Generator your own Oh My GitHub
 
