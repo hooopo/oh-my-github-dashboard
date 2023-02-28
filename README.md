@@ -16,4 +16,4 @@ mysql2://xxx.root:password@hostxx.tidbcloud.com:4000/db_name
 
 ## How it works
 
-![image](https://user-images.githubusercontent.com/63877/219487121-68fefc7b-310d-4d5d-8890-eb5c70312443.png)
+![image](static/how_it_works.png)
