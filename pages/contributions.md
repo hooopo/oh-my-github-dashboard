@@ -128,3 +128,64 @@ limit 10;
     y=cnt
     swapXY=true
 />
+
+
+
+### Author Association Pie Chart
+
+```contributions_author_association_pie
+select author_association as name, count(*) as value  
+from pull_requests pr join curr_user on pr.user_id = curr_user.id
+group by 1
+order by 2 desc
+```
+
+<ECharts config={
+    {
+        tooltip: {
+            formatter: '{b}: {c} ({d}%)'
+        },
+        series: [
+        {
+          type: 'pie',
+          radius: ['40%', '70%'],
+          data: contributions_author_association_pie,
+        }
+      ]
+      }
+    }
+/>
+
+### Contributions type pie chart
+
+```contributions_type_pie
+select type as name, count(*) as value
+from (
+  select user_id, 'issue' as type from issues
+  union all
+  select user_id, 'pull_request' as type from pull_requests
+  union all
+  select user_id, 'issue_comment' as type from issue_comments
+  union all
+  select user_id, 'commit_comment' as type from commit_comments
+) t
+join curr_user on t.user_id = curr_user.id
+group by 1
+order by 2 desc
+```
+
+<ECharts config={
+    {
+        tooltip: {
+            formatter: '{b}: {c} ({d}%)'
+        },
+        series: [
+        {
+          type: 'pie',
+          radius: ['40%', '70%'],
+          data: contributions_type_pie,
+        }
+      ]
+      }
+    }
+/>
