@@ -1,5 +1,4 @@
 import * as fsp from 'node:fs/promises';
-import * as URL from 'node:url';
 import * as path from 'node:path';
 import * as process from 'node:process';
 import { init } from 'echarts';
@@ -7,14 +6,14 @@ import '../../api-vis/theme.js';
 
 const handler = async function (req, res) {
   const root = process.cwd();
-  const buildDir = process.env.NODE_ENV === 'development' ? path.join(root, 'build') : root;
+  const buildDir = path.join(root, 'build');
   const apiDir = path.join(buildDir, 'api');
 
   const { id, w = '480', h = '320' } = req.query;
 
   const promises: Promise<any>[] = [];
 
-  console.log(await fsp.readdir(root))
+  console.log(await fsp.readdir(buildDir), await fsp.readdir(path.join(buildDir, 'api')));
 
   for (const dirent of await fsp.readdir(apiDir, { withFileTypes: true })) {
     console.log('test', path.join(apiDir, dirent.name));
