@@ -1,0 +1,24 @@
+{
+  "$$seriesField": "type",
+  "grid": {},
+  "legend": {
+    "top": 16
+  },
+  "series": {
+    "type": "line",
+    "encode": {
+      "x": "month",
+      "y": "cnt"
+    }
+  },
+  "xAxis": {
+    "type": "time"
+  },
+  "yAxis": {
+    "type": "value"
+  },
+  "title": {
+    "text": "Contributions per month",
+    "left": "center"
+  }
+}
