@@ -24,7 +24,7 @@ class FetchRepos
           resetAt
         }
         user(login: "#{login}") {
-          repositories(first: 100, orderBy: {field: UPDATED_AT, direction: ASC} #{after}) {
+          repositories(first: 100, ownerAffiliations: OWNER, orderBy: {field: UPDATED_AT, direction: ASC} #{after}) {
             pageInfo {
               endCursor
               hasNextPage
