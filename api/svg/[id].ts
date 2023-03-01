@@ -6,8 +6,7 @@ import { init } from 'echarts';
 import '../../api-vis/theme.js';
 
 const handler = async function (req, res) {
-  const apiPath = URL.fileURLToPath(import.meta.url);
-  const root = path.dirname(path.dirname(path.dirname(apiPath)));
+  const root = process.cwd();
   const buildDir = process.env.NODE_ENV === 'development' ? path.join(root, 'build') : root;
   const apiDir = path.join(buildDir, 'api');
 
