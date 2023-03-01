@@ -13,10 +13,7 @@ const handler = async function (req, res) {
 
   const promises: Promise<any>[] = [];
 
-  console.log(await fsp.readdir(buildDir), await fsp.readdir(path.join(buildDir, 'api')));
-
   for (const dirent of await fsp.readdir(apiDir, { withFileTypes: true })) {
-    console.log('test', path.join(apiDir, dirent.name));
     if (dirent.isFile() && dirent.name.endsWith('.json')) {
       promises.push(fsp.readFile(path.join(apiDir, dirent.name), { encoding: 'utf-8' }).then(JSON.parse).then(json => findDataJson(id, json)));
     }
@@ -28,7 +25,7 @@ const handler = async function (req, res) {
     return;
   }
 
-  const template = await getTemplate(id, root);
+  const template = await getTemplate(id, buildDir);
   if (!template) {
     res.status(404).send('Visualization template not provided');
     return;
