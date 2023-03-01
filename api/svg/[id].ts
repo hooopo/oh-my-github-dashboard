@@ -1,14 +1,13 @@
 import * as fsp from 'node:fs/promises';
 import * as URL from 'node:url';
 import * as path from 'node:path';
-import config from '../../vercel.json' assert { type: 'json' };
 import { init } from 'echarts';
 import '../../api-vis/theme.js';
 
 const handler = async function (req, res) {
   const apiPath = URL.fileURLToPath(import.meta.url);
   const root = path.dirname(path.dirname(path.dirname(apiPath)));
-  const buildDir = path.join(root, config.outputDirectory);
+  const buildDir = path.join(root, 'build');
   const apiDir = path.join(buildDir, 'api');
 
   const { id, w = '480', h = '320' } = req.query;
