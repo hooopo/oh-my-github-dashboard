@@ -4,7 +4,7 @@
   "scripts": {
     "build": "evidence build && mkdir -p build/api-vis && cp api-vis/*.json build/api-vis/",
     "dev": "evidence dev -o",
-    "dev:vercel": "vercel",
+    "dev:api": "vercel dev",
     "test": "evidence build"
   },
   "engines": {
