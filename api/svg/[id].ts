@@ -1,13 +1,14 @@
 import * as fsp from 'node:fs/promises';
 import * as URL from 'node:url';
 import * as path from 'node:path';
+import * as process from 'node:process';
 import { init } from 'echarts';
 import '../../api-vis/theme.js';
 
 const handler = async function (req, res) {
   const apiPath = URL.fileURLToPath(import.meta.url);
   const root = path.dirname(path.dirname(path.dirname(apiPath)));
-  const buildDir = path.join(root, 'build');
+  const buildDir = process.env.NODE_ENV === 'development' ? path.join(root, 'build') : root;
   const apiDir = path.join(buildDir, 'api');
 
   const { id, w = '480', h = '320' } = req.query;
@@ -39,7 +40,7 @@ const handler = async function (req, res) {
     height: parseInt(h),
   });
 
-  ec.setOption(template(result.data))
+  ec.setOption(template(result.data));
 
   res.status(200).setHeader('content-type', 'image/svg+xml').send(ec.renderToSVGString());
 };
