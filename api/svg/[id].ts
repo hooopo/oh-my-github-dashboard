@@ -14,6 +14,8 @@ const handler = async function (req, res) {
 
   const promises: Promise<any>[] = [];
 
+  console.log(await fsp.readdir(root))
+
   for (const dirent of await fsp.readdir(apiDir, { withFileTypes: true })) {
     console.log('test', path.join(apiDir, dirent.name));
     if (dirent.isFile() && dirent.name.endsWith('.json')) {
