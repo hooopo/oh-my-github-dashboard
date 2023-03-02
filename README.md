@@ -17,3 +17,22 @@ mysql2://xxx.root:password@hostxx.tidbcloud.com:4000/db_name
 ## How it works
 
 ![image](static/how_it_works.png)
+
+## SVG api
+
+[svg api](api/svg/[id].ts) will automatically find data from evidence build files. This api uses echarts templates from [api-vis](api-vis).
+
+The final url would be YOUR_VERCEL_DOMAIN/api/svg/CHART_ID?w=480&h=320.
+
+The CHART_ID is the query id from any pages, default width is 640 and default height is 320.
+
+### Customize & Development
+
+```
+npm run dev:api
+```
+
+> This command will only build evidence pages once, so you **could not** change the SQL after started.
+
+- Add more templates in [api-vis](api-vis) dir, the filename must be the CHART_ID currently. (You must add queries first and restart the dev:api command)
+- Edit [\[id\].ts](api/svg/[id].ts) and support more types of charts.

@@ -2,8 +2,9 @@
   "name": "oh-my-github",
   "version": "0.0.1",
   "scripts": {
-    "build": "evidence build",
+    "build": "evidence build && mkdir -p build/api-vis && cp api-vis/*.json build/api-vis/",
     "dev": "evidence dev -o",
+    "dev:api": "vercel dev",
     "test": "evidence build"
   },
   "engines": {
@@ -14,6 +15,11 @@
   "dependencies": {
     "@evidence-dev/evidence": "12.1.0",
     "@octokit/graphql": "^5.0.5",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "echarts": "^5.4.1"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0",
+    "vercel": "^28.16.10"
   }
 }
