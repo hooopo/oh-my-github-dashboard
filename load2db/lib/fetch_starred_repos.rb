@@ -37,6 +37,7 @@ class FetchStarredRepos
                 owner {
                   login
                 }
+                isInOrganization
                 licenseInfo {
                   name
                 }
@@ -173,7 +174,8 @@ class FetchStarredRepos
         fork_count: hash["forkCount"],
         stargazer_count: hash["stargazerCount"],
         pushed_at: hash["pushedAt"],
-        topics: hash["repositoryTopics"]["edges"].map{|edge| edge["node"]["topic"]["name"]}
+        topics: hash["repositoryTopics"]["edges"].map{|edge| edge["node"]["topic"]["name"]},
+        is_in_organization: hash["isInOrganization"]
       }
     end
   end
