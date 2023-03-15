@@ -41,8 +41,8 @@ jobs:
 
       run: |
         cd load2db
-        bundle exec rails db:create
-        bundle exec rails db:migrate
+        bundle exec rails runner "RetryableRake.db_create"
+        bundle exec rails runner "RetryableRake.db_migrate"
 
     - name: Sync GitHub User Data
       env:

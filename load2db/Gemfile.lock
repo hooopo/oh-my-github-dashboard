@@ -180,6 +180,7 @@ GEM
     rake (13.0.6)
     reline (0.3.2)
       io-console (~> 0.5)
+    retryable (3.0.5)
     ruby-openai (3.3.0)
       httparty (>= 0.18.1)
     thor (1.2.1)
@@ -208,6 +209,7 @@ DEPENDENCIES
   pry-rails (~> 0.3.9)
   puma (~> 5.0)
   rails (~> 7.0.4)
+  retryable (~> 3.0)
   ruby-openai (~> 3.3)
   tzinfo-data
 
