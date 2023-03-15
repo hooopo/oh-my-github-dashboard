@@ -1,6 +1,8 @@
+require 'http'
+
 class SyncGithub
   def self.run!
-    raise("USER_LOGIN env missing, please set it") if ENV["USER_LOGIN"].blank?
+    ENV["USER_LOGIN"] ||= self.get_viewer_login
     
     puts "👉 Sync current user info #{ENV['USER_LOGIN']}"
     FetchCurrentUser.new(ENV["USER_LOGIN"]).run 
@@ -34,5 +36,26 @@ class SyncGithub
 
     puts "👇 Generate Story by OpenAI"
     StoryGenerator.generate_by_openai
+  end
+
+  def self.get_viewer_login
+    query = <<~GQL
+      query {
+        viewer {
+          login
+        }
+      }
+    GQL
+
+    response = HTTP.post("https://api.github.com/graphql",
+      headers: {
+        "Authorization": "Bearer #{ENV['ACCESS_TOKEN']}",
+        "Content-Type": "application/json"
+      },
+      json: { query: query }
+    )
+
+    data = response.parse
+    data.dig("data", "viewer", "login")
   end
 end
