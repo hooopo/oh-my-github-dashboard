@@ -52,7 +52,6 @@ class FetchBatchUsers
   def get_attrs(data)
     owners.map do |owner|
       base = data.dig("data", normalize_login(owner))
-      puts base
       {
         id: base.dig("databaseId"),
         login: base["login"],
