@@ -31,6 +31,9 @@ class SyncGithub
     puts "👇 Sync Commit Comments"
     FetchCommitComments.new(ENV["USER_LOGIN"]).run
 
+    puts "👇 Sync user_id for repos"
+    FillUser.run
+
     puts "👇 Sync Region"
     SyncRegion.new.run
 
