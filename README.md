@@ -8,7 +8,9 @@ This repository provides a data pipeline that syncs GitHub repositories with a f
 
 To use this repository as a standalone data pipeline, simply set the environment variables and the GitHub action will run automatically every hour. This will sync the specified user's GitHub data to TiDB Cloud.
 
-Environment Variables
+![image](https://user-images.githubusercontent.com/63877/226034715-edf3ea0f-870f-4933-8f6c-ea28a56dad1b.png)
+
+Environment Secrets
 
 To use this repository, you will need to set the following secrets on GitHub:
 
