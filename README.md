@@ -24,6 +24,9 @@ If you only intend to use this repository as a data pipeline, you can ignore the
 
 To use this repository as a personal dashboard, after setting up the data pipeline, you can create a web application that queries the MySQL database and displays the data in a user-friendly format.
 
+![image](https://user-images.githubusercontent.com/63877/226038417-89937699-8cbb-49f1-8b0f-992db6bc2f26.png)
+
+
 One option for creating a personal dashboard is to use Evidence (SSG) to display the dashboard on Vercel. You can read the data from TiDB Cloud and build the dashboard every hour.
 
 Using the synced data, you can analyze your GitHub activity and use it for personal branding or as a resume. This repository provides a flexible and powerful solution for syncing and analyzing your GitHub data, whether you use it as a personal dashboard or a standalone data pipeline.
