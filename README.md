@@ -1,18 +1,31 @@
 ## Oh My GitHub
 
-`Oh My GitHub` (oh-my-github), which is a tool that utilizes GitHub Action and GitHub GraphQL API to synchronize GitHub data to a database. The tool can synchronize various content, including starred repositories, pull requests, issues, followers, followings, and created repositories. Moreover, it enables users to query and aggregate the synchronized data, generate beautiful charts, and discover stories behind the data using markdown and SQL.
+## GitHub Data Sync
 
-## How to use
+This repository provides a data pipeline that syncs GitHub repositories with a free MySQL-compatible cloud database, TiDB Cloud. It can be used as a standalone data pipeline or as a personal dashboard.
 
-The repo requires the following environment variables to be set:
+### Standalone Data Pipeline
 
-* `ACCESS_TOKEN`: A personal access token provided by GitHub, which can be set at https://github.com/settings/tokens.
-* `USER_LOGIN`: The user login of the account you want to synchronize, which is typically set to your own GitHub account's user login. You can also set the user login of other users you want to synchronize, but note that you won't be able to synchronize private repositories and author_association information.
-* `DATABASE_URL`: The MySQL connection information in URI format for TiDB Cloud. You need to register and create a serverless cluster on https://tidb.cloud, and the URI format should contain the necessary information for connecting to the cluster. An example of the DATABASE_URL format is: 
+To use this repository as a standalone data pipeline, simply set the environment variables and the GitHub action will run automatically every hour. This will sync the specified user's GitHub data to TiDB Cloud.
 
-```
-mysql2://xxx.root:password@hostxx.tidbcloud.com:4000/db_name
-```
+Environment Variables
+
+To use this repository, you will need to set the following secrets on GitHub:
+
+* `ACCESS_TOKEN`: A personal access token provided by GitHub, which can be obtained from [Sign in to GitHub · GitHub](https://github.com/settings/tokens).
+* `USER_LOGIN`: Optional, default is your access_token related user. The user login of the account you want to sync. This can be your own GitHub account's user login or the user login of other users you want to sync. Note that if you choose to sync other users, you won't be able to sync private repositories and author_association information.
+* `DATABASE_URL`: The MySQL connection information in URI format for TiDB Cloud. You will need to register and create a serverless cluster on [https://tidb.cloud](https://tidb.cloud/), and the URI format should contain the necessary information for connecting to the cluster. An example of the DATABASE_URL format is: mysql2://xxx.root:password@hostxx.tidbcloud.com:4000/db_name
+
+### Personal Dashboard
+
+If you only intend to use this repository as a data pipeline, you can ignore the following content.
+
+To use this repository as a personal dashboard, after setting up the data pipeline, you can create a web application that queries the MySQL database and displays the data in a user-friendly format.
+
+One option for creating a personal dashboard is to use Evidence (SSG) to display the dashboard on Vercel. You can read the data from TiDB Cloud and build the dashboard every hour.
+
+Using the synced data, you can analyze your GitHub activity and use it for personal branding or as a resume. This repository provides a flexible and powerful solution for syncing and analyzing your GitHub data, whether you use it as a personal dashboard or a standalone data pipeline.
+
 
 ## How it works
 
