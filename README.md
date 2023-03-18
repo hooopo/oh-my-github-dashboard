@@ -14,9 +14,11 @@ Environment Secrets
 
 To use this repository, you will need to set the following secrets on GitHub:
 
-* `ACCESS_TOKEN`: A personal access token provided by GitHub, which can be obtained from [Sign in to GitHub · GitHub](https://github.com/settings/tokens).
-* `USER_LOGIN`: Optional, default is your access_token related user. The user login of the account you want to sync. This can be your own GitHub account's user login or the user login of other users you want to sync. Note that if you choose to sync other users, you won't be able to sync private repositories and author_association information.
-* `DATABASE_URL`: The MySQL connection information in URI format for TiDB Cloud. You will need to register and create a serverless cluster on [https://tidb.cloud](https://tidb.cloud/), and the URI format should contain the necessary information for connecting to the cluster. An example of the DATABASE_URL format is: mysql2://xxx.root:password@hostxx.tidbcloud.com:4000/db_name
+| Secret Name | Description |
+| --- | --- |
+| ACCESS_TOKEN | A personal access token provided by GitHub, which can be obtained from [Sign in to GitHub · GitHub](https://github.com/settings/tokens). |
+| USER_LOGIN | Optional, default is your access_token related user. The user login of the account you want to sync. This can be your own GitHub account's user login or the user login of other users you want to sync. Note that if you choose to sync other users, you won't be able to sync private repositories and author_association information. |
+| DATABASE_URL | The MySQL connection information in URI format for TiDB Cloud. You will need to register and create a serverless cluster on [https://tidb.cloud](https://tidb.cloud/), and the URI format should contain the necessary information for connecting to the cluster. An example of the DATABASE_URL format is: mysql2://xxx.root:password@hostxx.tidbcloud.com:4000/db_name |
 
 ⚠️ Make sure you enable GitHub Action for this forked repo.
 
