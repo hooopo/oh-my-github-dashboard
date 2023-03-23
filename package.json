@@ -2,7 +2,7 @@
   "name": "oh-my-github",
   "version": "0.0.1",
   "scripts": {
-    "build": "evidence build && mkdir -p build/api-vis && cp api-vis/*.json build/api-vis/",
+    "build": "ENVV=$TIDB_PORT && evidence build && echo $ENVV && mkdir -p build/api-vis && cp api-vis/*.json build/api-vis/",
     "dev": "evidence dev -o",
     "dev:api": "vercel dev",
     "test": "evidence build"
