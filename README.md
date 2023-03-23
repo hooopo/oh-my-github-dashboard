@@ -18,7 +18,7 @@ Using the synced data, you can analyze your GitHub activity and use it for perso
 
 ### Vercel deployment
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fhooopo%2Foh-my-github-dashboard&env=MYSQL_DATABASE&envDescription=name%20for%20your%20database&integration-ids=icfg_3kmwQuOzI0Xg81uuU5qiE68w)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fhooopo%2Foh-my-github-dashboard&env=MYSQL_DATABASE&envDescription=name%20for%20your%20database&integration-ids=oac_coKBVWCXNjJnCEth1zzKoF1j)
 
 ## How it works
 
