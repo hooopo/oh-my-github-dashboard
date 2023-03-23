@@ -2,7 +2,7 @@
   "name": "oh-my-github",
   "version": "0.0.1",
   "scripts": {
-    "build": "ENVV=$TIDB_PORT && evidence build && echo $ENVV && mkdir -p build/api-vis && cp api-vis/*.json build/api-vis/",
+    "build": "DATABASE=mysql MYSQL_SSL={} MYSQL_PORT=$TIDB_PORT MYSQL_HOST=$TIDB_HOST MYSQL_PASSWORD=$TIDB_PASSWORD MYSQL_USER=$TIDB_USER && evidence build && echo $MYSQL_PORT && mkdir -p build/api-vis && cp api-vis/*.json build/api-vis/",
     "dev": "evidence dev -o",
     "dev:api": "vercel dev",
     "test": "evidence build"
