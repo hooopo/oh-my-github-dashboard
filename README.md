@@ -2,7 +2,7 @@
 
 ### Description
 
-Oh My GitHub Dashboard is a data front-end display template for Oh My GitHub Pipeline. It is a GitHub personal user dashboard based on Evidence, a static BI generator that uses SQL and Markdown.
+Oh My GitHub Dashboard is a data front-end display template for [Oh My GitHub Pipeline](https://github.com/hooopo/oh-my-github-pipeline). It is a GitHub personal user dashboard based on Evidence, a static BI generator that uses SQL and Markdown.
 
 ### Screenshot
 
