@@ -93,8 +93,6 @@ from pull_requests join curr_user on pull_requests.user_id = curr_user.id
 
 The Contributions Analysis report for OSS (Open Source Software) contribution provides a detailed analysis of an individual's contributions to an all repositories. The report includes data on various types of events such as issue events, pull requests, commit comments, and issue comments, all grouped by the contributor who made the contributions. The report visualizes the data in a single chart, making it easy to track an individual's contributions over time.
 
-By analyzing their contributions, OSS contributors can gain insights into their productivity, strengths, and areas for improvement. For instance, if an individual consistently makes a high number of pull requests or commits, it may indicate that the individual is highly engaged and productive. Conversely, a low number of contributions may suggest that the individual is struggling to contribute effectively.
-
 
 ```contributions_per_month
 with events as (
@@ -123,6 +121,8 @@ order by 1 asc
 
 ### Code Changes per Month
 
+The Code Changes per Month report is a valuable analytics tool that provides a comprehensive view of a user's code development on GitHub over time. 
+
 ```contributions_code_changes
 select date_format(pr.created_at, '%Y-%m-01') as month,  
   sum(pr.additions ) as total_additions, 
@@ -139,6 +139,8 @@ order by 1 asc;
 />
 
 ### Events history
+
+The Contributions Running Total report is a valuable analytics tool that provides a cumulative view of a user's contributions on GitHub over time. 
 
 ```contributions_running_total
 with events as (
@@ -170,6 +172,8 @@ order by 1 asc
 
 ### Code changes history
 
+The Code Changes History report is a valuable analytics tool that provides a detailed history of the changes made to a user's code on GitHub. The report includes data on the number of code changes made by the user over time, as well as the specific changes made to each file, making it easy to identify trends and patterns in the user's code development.
+
 ```contributions_code_changes_running_total
 with monthly_events as (
   select date_format(pr.created_at, '%Y-%m-01') as month,  
@@ -193,6 +197,8 @@ order by 1 asc
 
 
 ### Most contributed to repositories
+
+The Most Contributed to Repositories List report is a valuable analytics tool that provides a list of the repositories where a user has made the most contributions on GitHub. The report includes data on the number of contributions made by the user to each repository, making it easy to identify the repositories where the user has been most active.
 
 ```contributions_repos
 with events as (
@@ -259,6 +265,10 @@ order by 2 desc
 
 ### Contributions Types
 
+The Contributions Types Pie report is a valuable analytics tool that provides a breakdown of a user's contributions on GitHub by the type of contribution. The report includes data on the number of issues, pull requests, comments, and other contributions made by the user, making it easy to identify the types of contributions in which the user is most active.
+
+
+
 ```contributions_type_pie
 select type as name, count(*) as value
 from (
@@ -294,6 +304,8 @@ order by 2 desc
 ## Followers Analysis
 
 ### Followers top regions
+
+The Followers Top Regions report is a valuable tool for users looking to engage with their community and identify potential collaborators and advocates in specific regions. By analyzing the data, users can gain valuable insights into the geographic distribution of their follower base and make data-driven decisions to improve the quality of their work and engage more effectively with their community.
 
 ```followers_top_regions
 select u.region as name,
@@ -336,6 +348,8 @@ limit 5
 
 ### Top Companies of Followers
 
+The Top Companies of Followers report is a valuable analytics tool that provides a list of the most common companies among a user's followers on GitHub. The report includes data on the number of followers affiliated with each company, making it easy to identify the companies with the most engaged followers.
+
 ```followers_top_companies
 select lower(replace(u.company, "@", "")) as company,
         count(*) as count
@@ -356,6 +370,8 @@ limit 10
 
 ### Followers Registered Years
 
+The Followers Registered Years report is a valuable analytics tool that provides a breakdown of a user's followers by the year they registered on GitHub. The report includes data on the number of followers registered in each year, making it easy to identify trends in the user's follower base.
+
 ```followers_registered_years
 select datediff(now(), u.created_at) DIV 365  as years,
         count(*) as count
@@ -374,6 +390,8 @@ order by 1 asc
 
 
 ### Top Followers by Followers Count
+
+The Top Followers by Followers Count report for a user is a valuable analytics tool that provides a list of the most followed users of a specific GitHub user. The report includes data on the number of followers for each user, making it easy to identify the most influential and engaged followers of a user.
 
 ```top_followers_by_followers_count
 select u.login,
