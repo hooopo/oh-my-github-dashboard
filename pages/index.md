@@ -91,6 +91,11 @@ from pull_requests join curr_user on pull_requests.user_id = curr_user.id
 
 ### Events per Month
 
+The Contributions Analysis report for OSS (Open Source Software) contribution provides a detailed analysis of an individual's contributions to an all repositories. The report includes data on various types of events such as issue events, pull requests, commit comments, and issue comments, all grouped by the contributor who made the contributions. The report visualizes the data in a single chart, making it easy to track an individual's contributions over time.
+
+By analyzing their contributions, OSS contributors can gain insights into their productivity, strengths, and areas for improvement. For instance, if an individual consistently makes a high number of pull requests or commits, it may indicate that the individual is highly engaged and productive. Conversely, a low number of contributions may suggest that the individual is struggling to contribute effectively.
+
+
 ```contributions_per_month
 with events as (
   select id, user_id, created_at, 'issue' as type from issues
