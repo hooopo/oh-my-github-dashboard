@@ -414,3 +414,11 @@ limit 100
     <Column id=twitter_username />
 </DataTable>
 
+
+## Deploy your own Dashboard
+
+[![Deploy your own Dashboard](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fhooopo%2Foh-my-github-dashboard&env=MYSQL_DATABASE&envDescription=name%20for%20your%20database&integration-ids=oac_coKBVWCXNjJnCEth1zzKoF1j)
+
+[More info here](https://github.com/hooopo/oh-my-github-dashboard#oh-my-github-dashboard)
+
+
