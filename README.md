@@ -42,3 +42,14 @@ npm run dev:api
 
 - Add more templates in [api-vis](api-vis) dir, the filename must be the CHART_ID currently. (You must add queries first and restart the dev:api command)
 - Edit [\[id\].ts](api/svg/[id].ts) and support more types of charts.
+
+## Related repos
+
+* [Oh My GitHub Circles](https://github.com/hooopo/oh-my-github-circles)
+* [Oh My GitHub Pipeline](https://github.com/hooopo/oh-my-github-pipeline)
+* [Repo Contributor Circles](https://github.com/hooopo/repo-contributor-circles)
+* [Repo Track Pipeline](https://github.com/hooopo/repo-track-pipeline)
+* [OSSInsight Lite](https://github.com/pingcap/ossinsight-lite)
+* [OSSInsight](https://github.com/pingcap/ossinsight)
+* [Hackernews Insight](https://github.com/hooopo/hackernews-insight)
+* [Oh My GitHub Dashboard](https://github.com/hooopo/oh-my-github-dashboard)
